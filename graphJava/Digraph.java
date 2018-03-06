@@ -46,6 +46,20 @@ public class Digraph {
 
     }
 
+    public Digraph reverseGraph(){
+
+        Digraph reverse = new Digraph(this.V);
+
+        for (int i = 0; i < this.V; i++) {
+            for (Integer w : this.adj[i]) {
+                reverse.addEdge(w, i);
+            }
+        }
+
+        return reverse;
+
+    }
+
     public static void main(String[] args) {
         
         System.out.println("Hello World");
@@ -64,6 +78,12 @@ public class Digraph {
         G.addEdge(1, 4);
 
         G.printGraph();
+
+        Digraph reverse = G.reverseGraph();
+
+        System.out.println("Printing reverse graph");
+
+        reverse.printGraph();
 
     }
 
