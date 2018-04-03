@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE question-paper SYSTEM "question.dtd">
+
+<question-paper>
+
+    <question no="1">
+
+        <text>What is the full form of WWW?</text>
+
+        <optionA>Wide World Web</optionA>
+
+        <optionB>Web Wild World</optionB>
+
+        <optionC>World Wide Web</optionC>
+
+        <optionD>Wide Web World</optionD>
+
+        <answer value="optionC">World Wide Web</answer>
+
+    </question>
+
+</question-paper>

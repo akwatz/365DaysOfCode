@@ -1,6 +1,37 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int ans(int l , int r , int arr[] , int n , int H){
+
+    if( l > r )
+        return -1;
+
+
+    int k = ceil( (double)(l + r)/2 );
+
+    if(k == 0)
+        return -1;
+
+    int comp = 0;
+
+    for(int i = 0 ; i < n ; i++){
+
+        comp += ceil( (double)arr[i] / k );
+
+    }
+
+    if(comp > H)
+        return ans(k + 1 , r , arr , n , H);
+
+    int ans2 = ans( l , k - 1 , arr , n , H );
+
+    if(ans2 == -1)
+        return k;
+
+    return ans2;
+    
+}
+
 int main(){
 
     int tCase;
@@ -16,21 +47,17 @@ int main(){
         for(int i = 0 ; i < N ; i++)
             cin>>arr[i];
 
-        sort(arr , arr + N);
+        int maxm = arr[0];
 
-        if(H-N == 0)
-            cout<<arr[N-1]<<endl;
+        for(int i = 1 ; i < N ; i++){
 
-        else{
-
-            int bareMin = arr[N-1-(H-N)];
-
-            cout<<max(bareMin , arr[N-1]-bareMin)<<endl;
+            if(arr[i] > maxm)
+                maxm = arr[i];
 
         }
 
-    }
+        cout<<ans(0 , maxm , arr , N , H)<<endl;
 
-    return 0;
+    }
 
 }
