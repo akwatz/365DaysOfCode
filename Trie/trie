@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct TrieNode{
+  char val;
+  int end;
+  TrieNode *left , *mid , *right;
+};
+
+TrieNode* newNode(char c){
+    TrieNode* temp = new TrieNode;
+    temp->val = c;
+    temp->end = 0;
+    temp->left = temp->right = temp->mid = NULL;
+    return temp;
+}
+
+TrieNode* put_string(TrieNode* A , string s , int index){
+    if(!A){
+        A = newNode(s[index]);
+        index++;
+        
+        if(index == s.length()){
+            A->end = 1;
+            return A;
+        }
+        else
+            A->mid = put_string(A->mid , s , index);
+        
+        return A;
+    }
+    if(A && A->val < s[index]){
+        A->right = put_string(A->right , s , index);
+        return A;
+    }
+    if(A && A->val == s[index]){
+        index++;
+        if(index == s.length()){
+            A->end = 1;
+            return A;
+        }
+        A->mid = put_string(A->mid , s , index);
+        return A;
+    }
+    if(A && A->val > s[index]){
+        A->left =  put_string(A->left , s , index);
+        return A;
+    }
+        
+}
+
+bool search(TrieNode* A , string s , int index){
+    if(!A)
+        return false;
+    if(A->val == s[index]){
+        index++;
+        if(index == s.length() && A->end == 1)
+            return true;
+        return search(A->mid , s , index);
+    }
+    if(A->val < s[index])
+        return search(A->right , s , index);
+    if(A->val > s[index])
+        return search(A->left , s , index);
+}
+
+int main() {
+
+    int inputs;
+    cin>>inputs;
+    TrieNode* A = NULL;
+    while(inputs--){
+        string temp;
+        cin>>temp;
+        A = put_string(A , temp , 0);
+    }
+    int outputs;
+    cin>>outputs;
+    while(outputs--){
+        string temp;
+        cin>>temp;
+        cout<<temp<<" "<<search(A , temp , 0)<<endl;;
+    }
+}
