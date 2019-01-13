@@ -1,0 +1,92 @@
+struct TrieNode{
+  char val;
+  int end;
+  TrieNode *left , *mid , *right;
+};
+
+TrieNode* newNode(char c){
+    TrieNode* temp = new TrieNode;
+    temp->val = c;
+    temp->end = 1;
+    temp->left = temp->right = temp->mid = NULL;
+    return temp;
+}
+
+TrieNode* put_string(TrieNode* A , string s , int index){
+    if(!A){
+        A = newNode(s[index]);
+        index++;
+        
+        if(index == s.length()){
+            return A;
+        }
+        else
+            A->mid = put_string(A->mid , s , index);
+        
+        return A;
+    }
+    if(A && A->val < s[index]){
+        A->right = put_string(A->right , s , index);
+        return A;
+    }
+    if(A && A->val == s[index]){
+        index++;
+        A->end += 1;
+        if(index == s.length()){
+            return A;
+        }
+        A->mid = put_string(A->mid , s , index);
+        return A;
+    }
+    if(A && A->val > s[index]){
+        A->left =  put_string(A->left , s , index);
+        return A;
+    }
+        
+}
+
+bool search(TrieNode* A , string s , int index){
+    if(!A)
+        return false;
+    if(A->val == s[index]){
+        index++;
+        if(index == s.length()){
+            if(A->end == 1)
+                return true;
+            else
+                return false;
+        }
+        return search(A->mid , s , index);
+    }
+    if(A->val < s[index])
+        return search(A->right , s , index);
+    if(A->val > s[index])
+        return search(A->left , s , index);
+}
+
+vector<string> prefix(vector<string> &A) {
+    
+    TrieNode* dictionary = NULL;
+    for(int i = 0 ; i < A.size() ; i++)
+        dictionary = put_string(dictionary , A[i] , 0);
+        
+    vector<string> ret;
+    
+    for(int i = 0 ; i < A.size() ; i++){
+        string s = A[i];
+        string temp = "";
+        for(int j = 0 ; j < s.length() ; j++){
+            temp += s[j];
+            int flag = 0;
+            if(search(dictionary , temp , 0)){
+                ret.push_back(temp);
+                flag = 1;
+            }
+            if(flag)
+                break;
+        }
+    }
+    
+    return ret;
+    
+}
