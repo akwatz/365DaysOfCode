@@ -1,0 +1,37 @@
+class UnionFind{
+    private:
+    vector<int> id;
+    vector<int> sz;
+    public:
+    UnionFind(int n){
+        id.resize(n);
+        sz.resize(n);
+        for(int i = 0 ; i < n ; i++)
+            id[i] = i , sz[i] = 1;
+    }
+    int root(int p){
+        while(p != id[p]){
+            id[p] = id[id[p]];
+            p = id[p];
+        }
+        return p;
+    }
+    bool connected(int p , int q){
+        return root(p) == root(q);
+    }
+    void Union(int p , int q){
+        int p_root = root(p);
+        int q_root = root(q);
+        
+        if(p_root == q_root)
+            return;
+        if(sz[p_root] > sz[q_root]){
+            sz[p_root] += sz[q_root];
+            id[q_root] = p_root;
+        }
+        else{
+            sz[q_root] += sz[p_root];
+            id[p_root] = q_root;
+        }
+    }
+};
